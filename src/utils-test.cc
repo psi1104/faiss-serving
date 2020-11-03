@@ -56,11 +56,10 @@ TEST(server_util_test, parse_json__parsing_error) {
 
   ASSERT_THAT([&]() { fs::parseJsonPayload("{}", 128, v, numK); },
               testing::ThrowsMessage<std::runtime_error>(
-                  testing::HasSubstr("The JSON field referenced does not exist in this object.")));
+                  testing::HasSubstr("Json object does not have 'queries' or 'queries' is not a json array.")));
 
   ASSERT_THAT([&]() { fs::parseJsonPayload("{\"queries\": [0, 1, 2]}", 128, v, numK); },
-              testing::ThrowsMessage<std::runtime_error>(
-                  testing::HasSubstr("The JSON element does not have the requested type.")));
+              testing::ThrowsMessage<std::runtime_error>(testing::HasSubstr("queries should be float 2d array")));
 
   ASSERT_THAT([&]() { fs::parseJsonPayload("{\"queries\": [[0, 1, 2]]}", 2, v, numK); },
               testing::ThrowsMessage<std::runtime_error>(testing::HasSubstr("Dimension mismatch.")));

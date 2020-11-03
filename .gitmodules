@@ -10,6 +10,6 @@
 [submodule "third_party/cxxopts"]
 	path = third_party/cxxopts
 	url = https://github.com/jarro2783/cxxopts
-[submodule "third_party/simdjson"]
-	path = third_party/simdjson
-	url = https://github.com/simdjson/simdjson
+[submodule "third_party/rapidjson"]
+	path = third_party/rapidjson
+	url = https://github.com/tencent/rapidjson

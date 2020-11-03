@@ -26,15 +26,17 @@ endif()
 set(FAISS_ENABLE_PYTHON CACHE BOOL OFF)
 FetchContent_MakeAvailable(faiss)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/simdjson)
+set(RAPIDJSON_BUILD_TESTS OFF CACHE BOOL "Turn off building rapidjson test" FORCE)
+add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/rapidjson)
+
 include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/spdlog/include)
-include_directories(${PROJECT_SOURCE_DIR}/third_party/simdjson/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/cpp-httplib)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/cxxopts/include)
 
 add_executable(faiss-serving src/main.cc)
-target_link_libraries(faiss-serving faiss simdjson)
+target_link_libraries(faiss-serving faiss)
 
 if(BUILD_TEST)
   enable_testing()
@@ -43,8 +45,8 @@ if(BUILD_TEST)
   include_directories(${gtest_SOURCE_DIR}/include)
   include_directories(${gmock_SOURCE_DIR}/include)
 
-  add_executable(run-test src/utils-test.cc)
-  target_link_libraries(run-test gtest gmock gtest_main faiss simdjson)
+  add_executable(run-test src/utils-test.cc src/mapping-test.cc)
+  target_link_libraries(run-test gtest gmock gtest_main faiss)
 
   add_test(NAME run-test COMMAND ./run-test)
 endif()
