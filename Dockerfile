@@ -14,6 +14,5 @@ LABEL maintainer="ScatterLab developers@scatterlab.co.kr"
 
 RUN apk --no-cache add libgcc libstdc++ libgomp openblas
 WORKDIR /
-COPY --from=builder /workspace/build/third_party/simdjson/libsimdjson* /lib/
 COPY --from=builder /workspace/build/faiss-serving .
 ENTRYPOINT ["/faiss-serving", "--host=0.0.0.0"]
