@@ -54,7 +54,12 @@ class Mapper {
 
   bool isOpened() const { return mmapPointer != MAP_FAILED && fileDescriptor != -1; }
   size_t getNumRows() const { return numRows; }
-  std::string getItem(size_t index) {
+  std::string getItem(int64_t index) {
+    // https://github.com/facebookresearch/faiss/wiki/FAQ#what-does-it-mean-when-a-search-returns--1-ids
+    // when there are not enough elements to fill the result list
+    if (index < 0)
+      return "";
+
     if (index >= numRows)
       throw std::invalid_argument("index >= numRows");
 
